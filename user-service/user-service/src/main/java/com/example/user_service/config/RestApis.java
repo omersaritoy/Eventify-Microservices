@@ -11,4 +11,5 @@ public class RestApis {
     public static final String REGISTER = "/register";
     public static final String GETALL="/get-all";
     public static final String GETUSER="/get-user/{id}";
+    public static final String UPDATE="/update/{id}";
 }
