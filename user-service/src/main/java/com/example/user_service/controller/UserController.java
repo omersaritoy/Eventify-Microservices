@@ -39,4 +39,8 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id,@RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.updateUser(id,userRequest));
     }
+    @GetMapping(GETBYUSERNAME)
+    public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username));
+    }
 }

@@ -2,6 +2,7 @@ package com.example.user_service.mapper;
 
 import com.example.user_service.dto.UserRequest;
 import com.example.user_service.dto.UserResponse;
+import com.example.user_service.model.Role;
 import com.example.user_service.model.User;
 
 public class UserMapper {
@@ -22,6 +23,7 @@ public class UserMapper {
                 user.getLocation(),
                 user.getVerified(),
                 user.getActive(),
+                user.getRole().toString(),
                 user.getCreatedAt(),
                 user.getUpdatedAt()
         );
@@ -31,20 +33,16 @@ public class UserMapper {
         User user = new User();
         user.setEmail(request.email());
         user.setUsername(request.username());
-
-        // Parola hashlenmemişse dikkat et! Gerçek sistemde burada hash'lenmeli.
         user.setPasswordHash(request.password());
-
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
         user.setPhone(request.phone());
+        user.setRole(Role.valueOf(request.role()));
         user.setProfileImageUrl(request.profileImageUrl());
         user.setBio(request.bio());
         user.setDateOfBirth(request.dateOfBirth());
         user.setGender(request.gender());
         user.setLocation(request.location());
-
-        // Opsiyonel alanlar
         user.setActive(true);
         user.setVerified(false);
 

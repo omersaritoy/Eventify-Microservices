@@ -27,6 +27,11 @@ public class UserService {
     }
 
     public UserResponse createUser(UserRequest request) {
+        if(userRepository.existsByEmail(request.email()))
+            throw new EmailAlreadyExistsException("A user with this email already exists: "+request.email());
+        if(userRepository.existsByUsername(request.username()))
+            throw new UsernameAlreadyExistsException("A user with this username already exists: "+request.username());
+
         User user = UserMapper.toModel(request);
 
         return UserMapper.toDto(userRepository.save(user));
@@ -39,6 +44,10 @@ public class UserService {
 
     public UserResponse getUserById(UUID id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        return UserMapper.toDto(user);
+    }
+    public UserResponse getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
         return UserMapper.toDto(user);
     }
 

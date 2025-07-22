@@ -1,4 +1,4 @@
-package com.example.user_service.dto;
+package com.example.auth_service.dto;
 
 import java.time.LocalDate;
 

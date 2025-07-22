@@ -1,10 +1,10 @@
 package com.example.user_service.model;
 
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,11 +39,22 @@ public class User {
     private Boolean isVerified = false;
     private Boolean isActive = true;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public UUID getId() {
         return id;
@@ -172,4 +183,6 @@ public class User {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+
 }
