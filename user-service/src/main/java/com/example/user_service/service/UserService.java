@@ -1,7 +1,7 @@
 package com.example.user_service.service;
 
-import com.example.user_service.dto.UserRequest;
 import com.example.user_service.dto.UserResponse;
+import com.example.user_service.dto.UserUpdateRequest;
 import com.example.user_service.exception.EmailAlreadyExistsException;
 import com.example.user_service.exception.UserNotFoundException;
 import com.example.user_service.exception.UsernameAlreadyExistsException;
@@ -26,17 +26,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserResponse createUser(UserRequest request) {
-        if(userRepository.existsByEmail(request.email()))
-            throw new EmailAlreadyExistsException("A user with this email already exists: "+request.email());
-        if(userRepository.existsByUsername(request.username()))
-            throw new UsernameAlreadyExistsException("A user with this username already exists: "+request.username());
-
-        User user = UserMapper.toModel(request);
-
-        return UserMapper.toDto(userRepository.save(user));
-    }
-
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(UserMapper::toDto).toList();
@@ -47,11 +36,15 @@ public class UserService {
         return UserMapper.toDto(user);
     }
     public UserResponse getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+        return UserMapper.toDto(user);
+    }
+    public UserResponse getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new UserNotFoundException("User not found with email: " + email));
         return UserMapper.toDto(user);
     }
 
-    public UserResponse updateUser(UUID id, UserRequest request) {
+    public UserResponse updateUser(UUID id, UserUpdateRequest request) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         boolean isEmailChanged = !user.getEmail().equals(request.email());
         boolean isEmailAlreadyExist = userRepository.existsByEmail(request.email());
@@ -65,7 +58,7 @@ public class UserService {
         }
         user.setEmail(request.email());
         user.setUsername(request.username());
-        user.setPasswordHash(request.password()); // Güvenli!
+        user.setPasswordHash(request.password());
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
         user.setPhone(request.phone());
