@@ -1,5 +1,6 @@
 package com.example.user_service.service;
 
+import com.example.user_service.dto.RegisterRequest;
 import com.example.user_service.dto.UserResponse;
 import com.example.user_service.dto.UserUpdateRequest;
 import com.example.user_service.exception.EmailAlreadyExistsException;
@@ -29,6 +30,11 @@ public class UserService {
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(UserMapper::toDto).toList();
+    }
+
+    public UserResponse register(RegisterRequest registerRequest){
+        User user=userRepository.save(UserMapper.toModel(registerRequest));
+        return UserMapper.toDto(user);
     }
 
     public UserResponse getUserById(UUID id) {
