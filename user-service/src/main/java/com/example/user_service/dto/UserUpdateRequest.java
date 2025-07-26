@@ -2,7 +2,7 @@ package com.example.user_service.dto;
 
 import java.time.LocalDate;
 
-public record UserRequest(
+public record UserUpdateRequest(
         String email,
         String username,
         String password,

@@ -13,4 +13,5 @@ public class RestApis {
     public static final String GETUSER="/get-user/{id}";
     public static final String UPDATE="/update/{id}";
     public static final String GETBYUSERNAME="/get-by-username/{username}";
+    public static final String GETBYEMAIL="/get-by-email/{email}";
 }
