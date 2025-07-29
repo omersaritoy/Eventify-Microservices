@@ -1,10 +1,7 @@
 package com.example.auth_service.dto;
 
-public record RequestDto(
-        String name,
+public record LoginRequest(
         String email,
-        String username,
         String password
 ) {
-
 }

@@ -13,6 +13,7 @@ public class UserMapper {
         return new UserResponse(
                 user.getId(),
                 user.getEmail(),
+                user.getPasswordHash(),
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName(),
@@ -37,6 +38,7 @@ public class UserMapper {
         user.setFirstName(registerRequest.firstname());
         user.setLastName(registerRequest.lastname());
         user.setRole(Role.valueOf(registerRequest.role()));
+        user.setPasswordHash(registerRequest.password());
         return user;
     }
 

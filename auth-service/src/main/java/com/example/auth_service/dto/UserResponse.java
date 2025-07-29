@@ -1,4 +1,4 @@
-package com.example.user_service.dto;
+package com.example.auth_service.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,7 +19,9 @@ public record UserResponse(
         String location,
         Boolean isVerified,
         Boolean isActive,
-        String role,
+        Role role,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
-) {}
+) {
+
+}
