@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,6 +34,12 @@ public class UserService {
     }
 
     public UserResponse register(RegisterRequest registerRequest){
+        if (userRepository.findByEmail(registerRequest.email()).isPresent())
+            throw new EmailAlreadyExistsException("This email is already in use: " + registerRequest.email());
+
+        if (userRepository.findByUsername(registerRequest.username()).isPresent())
+            throw new UsernameAlreadyExistsException("This username is already in use: " + registerRequest.username());
+
         User user=userRepository.save(UserMapper.toModel(registerRequest));
         return UserMapper.toDto(user);
     }
